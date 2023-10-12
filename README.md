@@ -1,4 +1,4 @@
-# Bershka Fiyat Takibi
+# Bershka Fiyat Takib Telegram Botu
 Python ile yazılmış bu proje, bershka ürünlerinde ki fiyatı takip eder, fiyatı değiştiğinde ise Telegram üzerinden mesaj gönderir.
 
 url = yazan yere, ürünün linki eklenecek.
@@ -11,7 +11,7 @@ previous_price = '3000' -> yazan yere ürünün mevcut fiyat bilgisi yazılacak.
 Her 10 saniyede bir denetlemesi içinde kural eklendi.
 await asyncio.sleep(10) burada ki 10 değerini istediğiniz süreyle değiştirebilirsiniz.
 
-# Bershka Price Tracker
+# Bershka Price Tracker Telegram Bot
 This project, written in Python, tracks the prices of Bershka products and sends a message via Telegram when the price changes.
 
 The link of the product will be added to the place where url = is written.
