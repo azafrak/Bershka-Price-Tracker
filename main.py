@@ -9,8 +9,8 @@ url = 'https://www.bershka.com/tr/suni-y%C3%BCnl%C3%BC-astarl%C4%B1-uzun-denim-p
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
 previous_price = '2.699 TL'
-TELEGRAM_TOKEN = 'TELEGRAM API'
-TELEGRAM_CHAT_ID = 'TELEGRAM_CHAT_ID'
+TELEGRAM_TOKEN = ''
+TELEGRAM_CHAT_ID = ''
 
 
 import asyncio
@@ -18,11 +18,9 @@ import requests
 from bs4 import BeautifulSoup
 from telegram import Bot
 
-# ... (Diğer import ve global değişken tanımlamaları burada)
-
 async def send_telegram_message(message):
     bot = Bot(token=TELEGRAM_TOKEN)
-    await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
+    await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message , parse_mode= 'Markdown' )
 
 async def get_product_info():
     global previous_price
@@ -54,7 +52,8 @@ async def get_product_info():
                 print('Ürün Fiyatı Değişti!')
 
                 # Telegram mesajı gönder
-                message = f'Ürün Adı: {product_name}\nÜrün Fiyatı: {current_price}\nÜrün Linki: {url}'
+                #message = f'Ürünün Fiyatı Düştü Kaçırma!\n\nÜrün Adı: {product_name}\n💰Ürün Fiyatı: {current_price}\nÜrün Eski Fiyatı: {previous_price}\n🔗Ürün Linki: {url}'
+                message = f'🚨*Ürünün Fiyatı Düştü Kaçırma!*\n🎉*İndirimli Fiyat: {current_price}*\n\n*Ürün Adı:* {product_name}\n*Eski Fiyat:* {previous_price}\n*Ürün Linki:* {url}'
                 await send_telegram_message(message)
 
             previous_price = current_price
