@@ -8,17 +8,23 @@ import time
 url = 'https://www.bershka.com/tr/suni-y%C3%BCnl%C3%BC-astarl%C4%B1-uzun-denim-parka-c0p137423160.html?colorId=427'  # Bershka web sitesinin URL'sini buraya ekleyin
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-previous_price = None
+previous_price = '2.699 TL'
 TELEGRAM_TOKEN = 'TELEGRAM API'
-TELEGRAM_CHAT_ID = 'CHAT ID'
+TELEGRAM_CHAT_ID = 'TELEGRAM_CHAT_ID'
 
 
-def send_telegram_message(message):
+import asyncio
+import requests
+from bs4 import BeautifulSoup
+from telegram import Bot
+
+# ... (Diğer import ve global değişken tanımlamaları burada)
+
+async def send_telegram_message(message):
     bot = Bot(token=TELEGRAM_TOKEN)
-    bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
+    await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
 
-
-def get_product_info():
+async def get_product_info():
     global previous_price
 
     response = requests.get(url, headers=headers)
@@ -49,7 +55,7 @@ def get_product_info():
 
                 # Telegram mesajı gönder
                 message = f'Ürün Adı: {product_name}\nÜrün Fiyatı: {current_price}\nÜrün Linki: {url}'
-                send_telegram_message(message)
+                await send_telegram_message(message)
 
             previous_price = current_price
         else:
@@ -57,14 +63,14 @@ def get_product_info():
     else:
         print(f'Hata: {response.status_code}')
 
-
-def main():
+async def main():
     while True:
         # Ürün bilgilerini al
-        get_product_info()
+        await get_product_info()
 
-        # Her 60 saniyede bir bekleyin
-        time.sleep(60)
+        # Her 10 saniyede bir bekleyin
+        await asyncio.sleep(10)
 
 if __name__ == "__main__":
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
